@@ -1,4 +1,8 @@
-1. Get the application URL by running these commands:
+1. If you are using minikube, then run following command to launch app
+
+minikube service {{ include "demo.fullname" . }}
+
+2. Otherwise, get the application URL by running these commands:
 {{- if .Values.ingress.enabled }}
 {{- range $host := .Values.ingress.hosts }}
   {{- range .paths }}
