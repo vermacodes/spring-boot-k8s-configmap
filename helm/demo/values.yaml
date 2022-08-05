@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: demo
-  pullPolicy: Never
+  repository: ashisverma.azurecr.io/demo:latest
+  pullPolicy: Always
 
 imagePullSecrets: []
 nameOverride: ""
