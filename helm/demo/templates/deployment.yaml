@@ -21,6 +21,19 @@ spec:
       serviceAccountName: {{ include "demo.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{ if .Values.monitor.enabled }}
+      initContainers:
+      - name: init-ai-downloader
+        image: appropriate/curl
+        args:
+          - "-fsSL"
+          - "-o"
+          - "/tmp/data/applicationinsights.jar"
+          - {{ .Values.monitor.jar | quote }}
+        volumeMounts:
+        - name: init-script
+          mountPath: /tmp/data
+      {{ end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -33,6 +46,21 @@ spec:
               protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          {{ if .Values.monitor.enabled }}
+          volumeMounts:
+          - name: init-script
+            mountPath: /tmp/data
+          env:
+          - name: JAVA_ARGS
+            value: "-javaagent:/tmp/data/applicationinsights.jar"
+          - name: APPLICATIONINSIGHTS_CONNECTION_STRING
+            value: {{ .Values.monitor.aiConnectionString | quote }}
+          {{ end }}
+      {{ if .Values.monitor.enabled }}
+      volumes:
+      - name: init-script
+        emptyDir: {}
+      {{ end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

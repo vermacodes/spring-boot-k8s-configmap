@@ -34,7 +34,7 @@ securityContext: {}
 
 service:
   type: LoadBalancer
-  internal: true
+  internal: false
   port: 80
 
 ingress:
@@ -74,7 +74,13 @@ affinity: {}
 # If enabled an init container will be used to pull jar and json and add to the container.
 #
 monitor:
-  enabled: true #Enabling it will require additional information belwo.
-  ai-connection-string: # Add connection string here if enabled.
+  enabled: false #Enabling it will require additional information belwo.
+
+  # Application Insights Connection String is kind of a secret thing so add as an argument.
+  aiConnectionString: ''
+  
   # Download from https://github.com/microsoft/ApplicationInsights-Java/releases/download/3.3.1/applicationinsights-agent-3.3.1.jar
+  jar: "https://github.com/microsoft/ApplicationInsights-Java/releases/download/3.3.1/applicationinsights-agent-3.3.1.jar"
+
   # Application Insights JSON File https://raw.githubusercontent.com/vermacodes/applicaitonsinsights-json/master/ApplicationInsights.json
+  # This is not added yet. It will need one additional init container.
