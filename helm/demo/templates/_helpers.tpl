@@ -52,6 +52,15 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
 {{/*
+Internal load balancer type service annotation
+*/}}
+{{- define "demo.serviceAnnotations" -}}
+{{- if .Values.service.internal -}}
+service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+{{- end }}
+{{- end -}}
+
+{{/*
 Create the name of the service account to use
 */}}
 {{- define "demo.serviceAccountName" -}}
