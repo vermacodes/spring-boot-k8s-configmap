@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: ashisverma.azurecr.io/demo:latest
+  repository: ashishvermapu/demo:latest
   pullPolicy: Always
 
 imagePullSecrets: []
